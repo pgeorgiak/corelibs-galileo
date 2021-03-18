@@ -122,11 +122,11 @@ typedef struct _PinState
 void pinInit(void);
 void pinMode(uint8_t pin, uint8_t mode);
 int pinModeIRQ(uint8_t pin, int8_t mode);
-void digitalWrite(register uint8_t pin, register uint8_t val);
+void digitalWrite(uint8_t pin, uint8_t val);
 int digitalRead(uint8_t pin);
 uint8_t fastDigitalRead(uint8_t pin);
-void fastDigitalWrite(register uint8_t pin, register uint8_t val);
-int pinToFastPin(register uint8_t pin);
+void fastDigitalWrite(uint8_t pin, uint8_t val);
+int pinToFastPin(uint8_t pin);
 
 // interrupt.c dependencies
 int pin2handle(uint8_t pin);

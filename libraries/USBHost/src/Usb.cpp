@@ -43,7 +43,7 @@ USBHost::USBHost() : bmHubPre(0)
 	DIR * pdir = NULL;
 	int fd = -1, i = 0;
 	struct dirent* direntp = NULL;
-	char buf[0x40];
+	char buf[512];
 	const char * input_path = "/dev/input";
 	uint8_t evtype_bitmask[(EV_MAX + 7) / 8];
 	input_count = ctReportParsers = 0;
@@ -917,7 +917,7 @@ void USBHost::Task(void)
 	int loop = 1, ret = 0, max = 0, i = 0, j = 0;
 	fd_set fdset, fdset_except;
 	char dummy;
-	extern int errno;
+//	extern int errno;
 	struct usb_dev * pusb_dev = NULL;
 	struct input_event ev[64];
 

@@ -52,7 +52,7 @@ int fastGpioSCInit(void);
 void fastGpioSCFini(void);
 void fastGpioSCDigitalWrite(uint8_t reg_offset, uint8_t gpio, uint8_t val);
 uint8_t fastGpioSCDigitalRead(uint8_t reg_offset, uint8_t gpio);
-void fastGpioSCDigitalWriteDestructive(register uint8_t reg_offset, uint8_t gpio);
+void fastGpioSCDigitalWriteDestructive(uint8_t reg_offset, uint8_t gpio);
 uint32_t fastGpioSCDigitalLatch(uint8_t reg_offset);
 
 #ifdef __cplusplus

@@ -168,7 +168,7 @@ void * TTYUARTClass::TTYIrqHandler(void * pargs)
 	char rx;
 	unsigned int spin = 1;
 	int ret = 0, max = pTTYUARTClass->_pipe_tx_rx[__TTYUART_IDX_RX];
-	extern int errno;
+//	extern int errno;
 
 	pthread_barrier_wait(&pTTYUARTClass->_barrier);
 
@@ -234,9 +234,9 @@ void * TTYUARTClass::TTYIrqHandler(void * pargs)
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
-int TTYUARTClass::init_tty( char * tty_name )
+int TTYUARTClass::init_tty( const char * tty_name )
 {
-	extern int errno;
+//	extern int errno;
 	int ret;
 
 	if(tty_name == NULL)

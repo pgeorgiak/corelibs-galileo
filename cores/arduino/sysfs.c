@@ -331,7 +331,7 @@ int sysfsGpioSetDrive(unsigned int gpio, unsigned int mode)
 {
 	FILE *fp = NULL;
 	int ret = 0;
-	char value[8] = "";
+	char value[9] = "";
 	char fs_path[SYSFS_BUF] = "";
 
 	trace_debug("%s: gpio%u, mode=%u", __func__, gpio, mode);

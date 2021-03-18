@@ -25,6 +25,7 @@ extern "C" {
 
 #include "Arduino.h"
 #include "pins_arduino.h"
+#include "sysfs.h"
 
 #define MY_TRACE_PREFIX "wiring_analog"
 
@@ -202,8 +203,6 @@ void pwmInit(void)
 	}
 
 	/* No need to set any muxing: done by pinMode.  */
-
-	return 0;
 }
 
 void adcInit(void)
@@ -222,8 +221,6 @@ void adcInit(void)
 	}
 
 	/* No need to set any muxing: done by pinMode.  */
-
-	return 0;
 }
 
 #ifdef __cplusplus

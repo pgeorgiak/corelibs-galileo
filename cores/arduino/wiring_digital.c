@@ -297,7 +297,7 @@ int pinModeIRQ(uint8_t pin, int8_t mode)
 	ret = muxSelect(pin, FN_GPIO_INPUT_HIZ);
 	if (ret) {
 		trace_error("%s: can't set mux for pin%d\n", __func__, pin);
-		return;
+		return ret;
 	}
 	g_APinState[pin].uCurrentInput = 1;
 	/* Cover alternate gpios too */
@@ -525,7 +525,7 @@ int pinToFastPin(register uint8_t pin)
 		break;
 	}
 }
-
+break
 /*
  * Initialise the GPIO for execution.
  *

@@ -95,7 +95,7 @@ int EthernetUDP::listen()
 int EthernetUDP::available() {
   	struct pollfd ufds;
 	int ret = 0;
-	extern int errno;
+//	extern int errno;
 	int    timeout = 0;	// milliseconds
 
 	if (_sock == -1)
@@ -148,7 +148,7 @@ int EthernetUDP::beginPacket(const char *host, uint16_t port)
 	// Look up the host first
 
 	int ret = 0;
-	extern int errno;
+//	extern int errno;
 	struct hostent *hp;
 
 	if (host == NULL || _sock == -1)
@@ -205,6 +205,8 @@ int EthernetUDP::bufferData(const uint8_t *buffer, size_t size)
 	}
 	memcpy(_buffer + _offset, buffer, written_bytes);
 	_offset += written_bytes;
+
+    return written_bytes;
 }
 
 size_t EthernetUDP::write(const uint8_t *buffer, size_t size)

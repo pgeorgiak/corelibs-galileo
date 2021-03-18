@@ -55,6 +55,7 @@ class Stream : public Print
 // parsing methods
 
   void setTimeout(unsigned long timeout);  // sets maximum milliseconds to wait for stream data, default is 1 second
+  unsigned long getTimeout() const {return _timeout;}
 
   bool find(char *target);   // reads data from the stream until the target string is found
   // returns true if target string is found, false if timed out (see setTimeout)
@@ -62,9 +63,9 @@ class Stream : public Print
   bool find(char *target, size_t length);   // reads data from the stream until the target string of given length is found
   // returns true if target string is found, false if timed out
 
-  bool findUntil(char *target, char *terminator);   // as find but search ends if the terminator string is found
+  bool findUntil(char *target, const char *terminator);   // as find but search ends if the terminator string is found
 
-  bool findUntil(char *target, size_t targetLen, char *terminate, size_t termLen);   // as above but search ends if the terminate string is found
+  bool findUntil(char *target, size_t targetLen, const char *terminate, size_t termLen);   // as above but search ends if the terminate string is found
 
 
   long parseInt(); // returns the first valid (long) integer value from the current position.

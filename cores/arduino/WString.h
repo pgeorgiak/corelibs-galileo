@@ -39,6 +39,7 @@
 //     -std=c++0x
 
 class __FlashStringHelper;
+#define FPSTR(pstr_pointer) (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
 #define F(string_literal) (reinterpret_cast<const __FlashStringHelper *>(PSTR(string_literal)))
 
 // An inherited class for holding the result of a concatenation.  These
@@ -62,7 +63,8 @@ public:
 	// be false).
 	String(const char *cstr = "");
 	String(const String &str);
-	#ifdef __GXX_EXPERIMENTAL_CXX0X__
+    String(const __FlashStringHelper *str);
+    #ifdef __GXX_EXPERIMENTAL_CXX0X__
 	String(String &&rval);
 	String(StringSumHelper &&rval);
 	#endif
@@ -106,6 +108,7 @@ public:
 	unsigned char concat(unsigned int num);
 	unsigned char concat(long num);
 	unsigned char concat(unsigned long num);
+    unsigned char concat(const __FlashStringHelper * str);
 
 	// if there's not enough memory for the concatenated value, the string
 	// will be left unchanged (but this isn't signalled in any way)
@@ -117,11 +120,15 @@ public:
 	String & operator += (unsigned int num)		{concat(num); return (*this);}
 	String & operator += (long num)			{concat(num); return (*this);}
 	String & operator += (unsigned long num)	{concat(num); return (*this);}
+    String & operator += (const __FlashStringHelper *str){
+        concat(str);
+        return (*this);
+    }
 
 
 	// Implement StringAdditionOperator per Arduino docs... String + __
 	String operator + (const String &rhs)	{return String(*this) += rhs;}
-	String operator + (const char *cstr)	{return String(*this) += cstr;}
+	String operator + (const char *cstr) {return String(*this) += cstr;}
 	String operator + (char c)		{return String(*this) += c;}
 	String operator + (unsigned char num)	{return String(*this) += num;}
 	String operator + (int num)		{return String(*this) += num;}
@@ -154,6 +161,7 @@ public:
 	unsigned char operator <= (const String &rhs) const;
 	unsigned char operator >= (const String &rhs) const;
 	unsigned char equalsIgnoreCase(const String &s) const;
+    unsigned char equalsConstantTime(const String &s) const;
 	unsigned char startsWith( const String &prefix) const;
 	unsigned char startsWith(const String &prefix, unsigned int offset) const;
 	unsigned char endsWith(const String &suffix) const;
@@ -192,7 +200,7 @@ public:
 	// parsing/conversion
 	long toInt(void) const;
 	float toFloat(void) const;
-	char * getCSpec(int base, bool issigned, bool islong);
+	const char * getCSpec(int base, bool issigned, bool islong);
 
 	char *buffer;	        // the actual char array
 	unsigned int capacity;  // the array length minus one (for the '\0')

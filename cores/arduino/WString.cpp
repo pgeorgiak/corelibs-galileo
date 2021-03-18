@@ -78,7 +78,7 @@ String::String(char c)
 	*this = buf;
 }
 
-static char * c_spec_signed[] = {
+static const char * c_spec_signed[] = {
 		"%d",
 		"%ld",
 		"%o",
@@ -86,7 +86,7 @@ static char * c_spec_signed[] = {
 		"unsupported base",
 	};
 
-static char * c_spec_unsigned[] = {
+static const char * c_spec_unsigned[] = {
 		"%u",
 		"%lu",
 		"%o",
@@ -95,7 +95,7 @@ static char * c_spec_unsigned[] = {
 	};
 
 
-char * String::getCSpec(int base, bool issigned, bool islong){
+const char * String::getCSpec(int base, bool issigned, bool islong){
 	int int_idx = 0;
 
 	if(islong == true)
@@ -512,6 +512,33 @@ unsigned char String::equalsIgnoreCase( const String &s2 ) const
 		if (tolower(*p1++) != tolower(*p2++)) return 0;
 	}
 	return 1;
+}
+
+unsigned char String::equalsConstantTime(const String &s2) const {
+    // To avoid possible time-based attacks present function
+    // compares given strings in a constant time.
+    if(len != s2.len)
+        return 0;
+    //at this point lengths are the same
+    if(len == 0)
+        return 1;
+    //at this point lenghts are the same and non-zero
+    const char *p1 = buffer;
+    const char *p2 = s2.buffer;
+    unsigned int equalchars = 0;
+    unsigned int diffchars = 0;
+    while(*p1) {
+        if(*p1 == *p2)
+            ++equalchars;
+        else
+            ++diffchars;
+        ++p1;
+        ++p2;
+    }
+    //the following should force a constant time eval of the condition without a compiler "logical shortcut"
+    unsigned char equalcond = (equalchars == len);
+    unsigned char diffcond = (diffchars == 0);
+    return (equalcond & diffcond); //bitwise AND
 }
 
 unsigned char String::startsWith( const String &s2 ) const

@@ -66,7 +66,7 @@ static bool currentPWMis188Hz = false;
 #define ERROR_FACTOR            1.1       //measured with oscilloscope
 // this function pointer is to avoid the conflict of write C ANSI call
 // compared to the Servo method called "write"
-static int  (*pointer_write)(  int  handle,  const void  *buffer,  unsigned int  nbyte  ) = write;
+static ssize_t  (*pointer_write)(  int  handle,  const void  *buffer,  size_t  nbyte  ) = write;
 
 #endif // PLATFORM_NAME checking
 

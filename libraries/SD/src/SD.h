@@ -21,6 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define __SD_H__
 
 #include <Arduino.h>
+
+#undef max
+#undef min
+
 #include <string>
 #include <dirent.h>
 

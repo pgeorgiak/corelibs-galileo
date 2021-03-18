@@ -215,4 +215,5 @@ void *toneHandler(void *arg)
       }
     }
   }
+    return nullptr;
 }

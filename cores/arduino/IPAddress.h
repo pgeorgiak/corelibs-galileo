@@ -42,8 +42,6 @@
 
 class IPAddress : public Printable {
 private:
-    //uint8_t _address[4];  // IPv4 address
-
     // Access the raw byte array containing the address.  Because this returns a pointer
     // to the internal structure rather than a copy of the address this function should only
     // be used when you know that the usage of the returned uint8_t* will be transient and not
@@ -59,6 +57,8 @@ public:
     IPAddress(uint32_t address);
     IPAddress(const uint8_t *address);
 
+    bool fromString(const char *address);
+
     // Overloaded cast operator to allow IPAddress objects to be used where a pointer
     // to a four-byte uint8_t array is expected
     operator uint32_t() { return *((uint32_t*)&_sin.sin_addr.s_addr); };
@@ -67,7 +67,7 @@ public:
 
     // Overloaded index operator to allow getting and setting individual octets of the address
     uint8_t operator[](int idx) const { return ((uint8_t*)&_sin.sin_addr.s_addr)[idx]; };
-    operator in_addr_t() { return _sin.sin_addr.s_addr; };
+    //operator in_addr_t() { return _sin.sin_addr.s_addr; };
     //uint8_t& operator[](int idx) { return ((uint8_t*)&_sin.sin_addr.s_addr))[idx]; };
 
     // Overloaded copy operators to allow initialisation of IPAddress objects from other types

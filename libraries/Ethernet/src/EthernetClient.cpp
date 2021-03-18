@@ -59,7 +59,7 @@ EthernetClient::EthernetClient(uint8_t sock) : _sock(sock)
 
 static int _connect(int _sock, struct sockaddr_in * psin, unsigned int len)
 {
-	extern int errno;
+//	extern int errno;
 	int ret;
 
 	trace_debug("%s doing connect() %d target ip %3d.%3d.%3d.%3d",
@@ -83,7 +83,7 @@ int EthernetClient::connect(const char* host, uint16_t port)
 	// Look up the host first
 	struct hostent *hp;
 	int ret = 0;
-	extern int errno;
+//	extern int errno;
 
 	if (host == NULL || _sock != -1)
 		return 0;
@@ -119,7 +119,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port)
 {
   // Look up the host first
   	int ret = 0;
-  	extern int errno;
+//  	extern int errno;
   	int on = 1;
 
   	if (_sock != -1)
@@ -171,7 +171,7 @@ size_t EthernetClient::write(uint8_t b) {
 
 size_t EthernetClient::write(const uint8_t *buf, size_t size)
 {
-	extern int errno;
+//	extern int errno;
 
  	if (_sock < 0) {
 		trace_error("%s cannot write to closed socket", __func__);
@@ -192,7 +192,7 @@ int EthernetClient::available()
 {
 	struct pollfd ufds;
 	int ret = 0;
-	extern int errno;
+//	extern int errno;
 	int    timeout = 5000;	// milliseconds
 
 	if (_sock == -1){

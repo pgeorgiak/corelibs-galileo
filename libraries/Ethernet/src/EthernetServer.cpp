@@ -73,7 +73,7 @@ EthernetServer::~EthernetServer()
 void EthernetServer::begin()
 {
 	int ret;
-	extern int errno;
+//	extern int errno;
 
 	_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (_sock < 0){
@@ -117,7 +117,7 @@ void EthernetServer::accept()
 {
 	struct pollfd ufds;
 	int ret = 0, size_val, success = 0;
-	extern int errno;
+//	extern int errno;
 
 	if (_sock == -1)
 		return;
