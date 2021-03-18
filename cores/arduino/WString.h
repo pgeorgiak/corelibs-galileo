@@ -38,7 +38,7 @@
 //     -felide-constructors
 //     -std=c++0x
 
-class __FlashStringHelper;
+using __FlashStringHelper = const char;
 #define FPSTR(pstr_pointer) (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
 #define F(string_literal) (reinterpret_cast<const __FlashStringHelper *>(PSTR(string_literal)))
 
@@ -63,7 +63,6 @@ public:
 	// be false).
 	String(const char *cstr = "");
 	String(const String &str);
-    String(const __FlashStringHelper *str);
     #ifdef __GXX_EXPERIMENTAL_CXX0X__
 	String(String &&rval);
 	String(StringSumHelper &&rval);
@@ -84,6 +83,11 @@ public:
 	// invalid string (i.e., "if (s)" will be true afterwards)
 	unsigned char reserve(unsigned int size);
 	inline unsigned int length(void) const {return len;}
+	void clear() {len = 0;}
+
+    inline bool isEmpty(void) const {
+        return length() == 0;
+    }
 
 	// creates a copy of the assigned value.  if the value is null or
 	// invalid, or if the memory allocation fails, the string will be
@@ -108,7 +112,6 @@ public:
 	unsigned char concat(unsigned int num);
 	unsigned char concat(long num);
 	unsigned char concat(unsigned long num);
-    unsigned char concat(const __FlashStringHelper * str);
 
 	// if there's not enough memory for the concatenated value, the string
 	// will be left unchanged (but this isn't signalled in any way)
@@ -120,10 +123,6 @@ public:
 	String & operator += (unsigned int num)		{concat(num); return (*this);}
 	String & operator += (long num)			{concat(num); return (*this);}
 	String & operator += (unsigned long num)	{concat(num); return (*this);}
-    String & operator += (const __FlashStringHelper *str){
-        concat(str);
-        return (*this);
-    }
 
 
 	// Implement StringAdditionOperator per Arduino docs... String + __

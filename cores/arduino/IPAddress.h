@@ -37,6 +37,7 @@
 
 /* Arduino headers */
 #include <Printable.h>
+#include <WString.h>
 
 // A class to make it easier to handle and pass around IP addresses
 
@@ -58,6 +59,7 @@ public:
     IPAddress(const uint8_t *address);
 
     bool fromString(const char *address);
+    String toString() const;
 
     // Overloaded cast operator to allow IPAddress objects to be used where a pointer
     // to a four-byte uint8_t array is expected

@@ -237,7 +237,7 @@ int WiFiClass::begin(char* ssid, uint8_t key_idx, const char *key)
 	return _status;
 }
 
-int WiFiClass::begin(char* ssid, const char *passphrase)
+wl_status_t WiFiClass::begin(const char* ssid, const char *passphrase)
 {
 	char cmd[256];
 	trace_debug("begin ssid=%s,passphrase=%s",ssid,passphrase);
@@ -613,7 +613,7 @@ uint8_t WiFiClass::encryptionType(uint8_t networkItem)
 		return getEncrType(_networkEncr[networkItem]);
 }
 
-uint8_t WiFiClass::status()
+wl_status_t WiFiClass::status()
 {
     return _status;
 }

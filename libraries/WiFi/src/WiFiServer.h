@@ -22,15 +22,25 @@ private:
 	bool _init_ok;
 	WiFiClient *pclients;
 	int *_pcli_inactivity_counter;
+    bool _noDelay = false;
 public:
 	WiFiServer(uint16_t);
+    WiFiServer(IPAddress&, uint16_t port) : WiFiServer(port) {}
 	~WiFiServer();
 	WiFiClient available();
+    void begin(uint16_t port) {
+        _port = port;
+        begin();
+    }
 	virtual void begin();
 	virtual size_t write(uint8_t);
 	virtual size_t write(const uint8_t *buf, size_t size);
 	void closeNotify(int idx);
 	using Print::write;
+    void close();
+    void setNoDelay(bool nodelay){
+        _noDelay = nodelay;
+    }
 };
 
 #endif

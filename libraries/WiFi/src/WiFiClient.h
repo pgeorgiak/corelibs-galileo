@@ -34,7 +34,7 @@ public:
 	int _sock;
 	int *_inactive_counter;
 	class WiFiServer * _pCloseServer;
-	bool connect_true;
+	bool _connected;
 	int id;
 private:
 	static uint16_t _srcport;

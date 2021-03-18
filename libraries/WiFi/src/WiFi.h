@@ -22,7 +22,7 @@ class WiFiClass
 private:
 	void init();
 
-	uint8_t	_status;
+    wl_status_t	_status;
 	IPAddress _local_ip;
 	IPAddress _dns_server;
 	IPAddress _gateway;
@@ -89,7 +89,7 @@ public:
      * param passphrase: Passphrase. Valid characters in a passphrase
      *        must be between ASCII 32-126 (decimal).
      */
-    int begin(char* ssid, const char *passphrase);
+	wl_status_t begin(const char* ssid, const char *passphrase);
 
     /* Change Ip configuration settings disabling the dhcp client
         *
@@ -239,7 +239,7 @@ public:
      *
      * return: one of the value defined in wl_status_t
      */
-    uint8_t status();
+    wl_status_t status();
 
     /*
      * Resolve the given hostname to an IP address.

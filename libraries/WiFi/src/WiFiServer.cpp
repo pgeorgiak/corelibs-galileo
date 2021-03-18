@@ -73,7 +73,7 @@ WiFiServer::~WiFiServer()
 void WiFiServer::begin()
 {
 	int ret;
-	extern int errno;
+//  	extern int errno;
 
 	_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (_sock < 0){
@@ -110,11 +110,16 @@ static int _accept(int sock, struct sockaddr * psin, socklen_t * psize)
 	return accept(sock, psin, psize);
 }
 
+void WiFiServer::close() {
+    ::close(_sock);
+    _sock = -1;
+}
+
 void WiFiServer::accept()
 {
 	struct pollfd ufds;
 	int ret = 0, size_val, success = 0;
-	extern int errno;
+//  	extern int errno;
 
 	if (_sock == -1)
 		return;
@@ -127,7 +132,7 @@ void WiFiServer::accept()
 	if ( ret < 0 ){
 		trace_error("%s error on poll errno %d", __func__, errno);
 		_sock = -1;
-		close(_sock);
+		::close(_sock);
 		return;
 	}
 
@@ -137,7 +142,7 @@ void WiFiServer::accept()
 		ret = _accept(_sock, (struct sockaddr*)&_cli_sin, (socklen_t*)&size_val);
 
 		if ( ret < 0){
-			close(_sock);
+			::close(_sock);
 			_sock = -1;
 			trace_error("%s Fail to accept() sock %d port %d", __func__, _sock, _port);
 			return;
@@ -147,7 +152,7 @@ void WiFiServer::accept()
 			if (pclients[sock]._sock == -1){
 				pclients[sock]._sock = ret;
 				pclients[sock]._pCloseServer = this;
-				pclients[sock].connect_true = true;
+				pclients[sock]._connected = true;
 				pclients[sock]._inactive_counter = &_pcli_inactivity_counter[sock];
 				success = 1;
 			}

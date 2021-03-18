@@ -32,20 +32,20 @@ uint16_t WiFiClient::_srcport = 1024;
 WiFiClient::WiFiClient() : _sock(-1)
 {
     	// full client mode - not connected
-	connect_true = false;
+	_connected = false;
 	_pCloseServer = NULL;
 }
 
 WiFiClient::WiFiClient(uint8_t sock) : _sock(sock)
 {
 	// being explicitely initialised by external logic to _sock = sock
-	connect_true = true;
+	_connected = true;
 	_pCloseServer = NULL;
 }
 
 static int _connect(int _sock, struct sockaddr_in * psin, unsigned int len)
 {
-	extern int errno;
+//	//  	extern int errno;
 	int ret;
 
 	trace_debug("%s doing connect() %d target ip %3d.%3d.%3d.%3d",
@@ -69,7 +69,7 @@ int WiFiClient::connect(const char* host, uint16_t port)
 	// Look up the host first
 	struct hostent *hp;
 	int ret = 0;
-	extern int errno;
+//	//  	extern int errno;
 
 	if (host == NULL || _sock != -1)
 		return 0;
@@ -96,7 +96,7 @@ int WiFiClient::connect(const char* host, uint16_t port)
 	}
 
 	if ( ret == 0)
-		connect_true = true;
+		_connected = true;
 
 	return 1;
 }
@@ -105,7 +105,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
 {
   // Look up the host first
   	int ret = 0;
-  	extern int errno;
+//  	//  	extern int errno;
   	int on = 1;
 
   	if (_sock != -1)
@@ -146,7 +146,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
 		return 0;
 	}
 	if ( ret == 0)
-		connect_true = true;
+		_connected = true;
 
 	return 1;
 }
@@ -157,7 +157,7 @@ size_t WiFiClient::write(uint8_t b) {
 
 size_t WiFiClient::write(const uint8_t *buf, size_t size)
 {
-	extern int errno;
+	//  	extern int errno;
 
  	if (_sock < 0) {
 		trace_error("%s cannot write to closed socket", __func__);
@@ -177,7 +177,7 @@ int WiFiClient::available()
 {
 	struct pollfd ufds;
 	int ret = 0;
-	extern int errno;
+	//  	extern int errno;
 	int    timeout = 5000;	// milliseconds
 
 	if (_sock == -1){
@@ -265,7 +265,7 @@ void WiFiClient::stop()
 	if (_sock < 0)
 		return;
 
-	connect_true = false;
+	_connected = false;
 	if (_inactive_counter != NULL)
 		*_inactive_counter = 0;
 	if(_sock != -1){
@@ -284,7 +284,7 @@ void WiFiClient::stop()
 
 uint8_t WiFiClient::connected()
 {
-	return connect_true == true;
+	return _connected == true;
 }
 
 uint8_t WiFiClient::status()

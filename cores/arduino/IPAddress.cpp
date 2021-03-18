@@ -83,45 +83,23 @@ size_t IPAddress::printTo(Print& p) const
 
 bool IPAddress::fromString(const char *address)
 {
-    // TODO: add support for "a", "a.b", "a.b.c" formats
-    uint8_t _address[4];  // IPv4 address
-
-    uint16_t acc = 0; // Accumulator
-    uint8_t dots = 0;
-
-    while (*address)
-    {
-        char c = *address++;
-        if (c >= '0' && c <= '9')
-        {
-            acc = acc * 10 + (c - '0');
-            if (acc > 255) {
-                // Value out of [0..255] range
-                return false;
-            }
-        }
-        else if (c == '.')
-        {
-            if (dots == 3) {
-                // Too much dots (there must be 3 dots)
-                return false;
-            }
-            _address[dots++] = acc;
-            acc = 0;
-        }
-        else
-        {
-            // Invalid char
-            return false;
-        }
-    }
-
-    if (dots != 3) {
-        // Too few dots (there must be 3 dots)
-        return false;
-    }
-    _address[3] = acc;
-    _sin.sin_addr.s_addr = inet_addr((char*)_address);//adr);
-
+    _sin.sin_addr.s_addr = inet_addr(address);
     return true;
 }
+
+String IPAddress::toString() const
+{
+    char szRet[16];
+    uint32_t address = _sin.sin_addr.s_addr;
+    uint8_t a0 = address & 0xFF;
+    address >>= 8;
+    uint8_t a1 = address & 0xFF;
+    address >>= 8;
+    uint8_t a2 = address & 0xFF;
+    address >>= 8;
+    uint8_t a3 = address & 0xFF;
+
+    sprintf(szRet,"%u.%u.%u.%u", a0, a1, a2, a3);
+    return String(szRet);
+}
+
